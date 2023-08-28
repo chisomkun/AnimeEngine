@@ -1,0 +1,64 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'rsearch.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'list.css' %}" />
+    <title>{{ anime }} Recommendations</title>
+</head>
+<body>
+    <div class="wrap">
+        <form action="{% url 'recs' %}" method="POST">
+        <div class="search">
+            {% csrf_token %}
+           <input type="text" class="searchTerm" placeholder="What have you watched?" name="watched">
+           <button type="submit" class="searchButton">
+             <i class="fa fa-search"></i>
+          </button>
+        </div>
+        </form>
+    </div>
+    <div class = "main-list-output">
+        <h3>Since you liked {{ anime }} you'll like:</h3>
+        <div class="main-list-output-list">
+            {% for l1 in list1 %}
+            <ul style="list-style: none;">
+            <li>{{ l1 }}</li>
+            </ul>
+            {% endfor %}
+        </div>
+        <div class = "main-list-output2" id="More" style="display:none;">
+            <h4>More recommendations</h4>
+            <div class="main-list-output-list2">
+                {% for l2 in list2 %}
+                <ul style="list-style: none;">
+                <li>{{ l2 }}</li>
+                </ul>
+                {% endfor %}
+            </div>
+        </div>
+        <button onclick="openMore()" class="More results">More</button>
+    </div>
+    <div class = "main-list-output2" id="More" style="display:none;">
+        <h4>You'll also like these</h4>
+        <div class="main-list-output-list2">
+            {% for l2 in list2 %}
+            <ul style="list-style: none;">
+            <li>{{ l2 }}</li>
+            </ul>
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+        function openMore() {
+          var x = document.getElementById("More");
+          if (x.style.display === "none") {
+            x.style.display = "block";
+          } else {
+            x.style.display = "none";
+          }
+        }
+        </script>
+</body>
+</html>

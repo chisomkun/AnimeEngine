@@ -10,25 +10,15 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 pd.options.display.max_columns
 
-def animeConnect():
-    conn = sqlite3.connect("db.sqlite3")
-    select = pd.read_sql_query("SELECT * FROM anime",conn)
-    anime_df = pd.DataFrame(select, columns=['anime_id','name','genre','type','episodes','rating','members'])
-    return anime_df
-
-def ratingConnect():
-    conn = sqlite3.connect("db.sqlite3")
-    select = pd.read_sql_query("SELECT * FROM rating",conn)
-    rating_df = pd.DataFrame(select, columns=['user_id','anime_id','rating'])
-    return rating_df
+conn = sqlite3.connect("db.sqlite3")
+select = pd.read_sql_query("SELECT * FROM anime",conn)
+anime_df = pd.DataFrame(select, columns=['anime_id','name','genre','type','episodes','rating','members'])
+select1 = pd.read_sql_query("SELECT * FROM rating",conn)
+rating_df = pd.DataFrame(select1, columns=['user_id','anime_id','rating'])
 
 #warning hadle
 warnings.filterwarnings("always")
 warnings.filterwarnings("ignore")
-
-#db Connection
-rating_df = ratingConnect()
-anime_df = animeConnect()
 
 #Engineer dataframe: only recommend TV animes, only computing first 7500 users TODO increase users
 rated_anime = rating_df.merge(anime_df, left_on = 'anime_id', right_on = 'anime_id', suffixes= ['_user', ''])

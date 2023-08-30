@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .engine.recengine import anime_recommendation
-from .engine.dbConfig import animeConnect, ratingConnect
 
 # Create your views here.
 def home(request):    

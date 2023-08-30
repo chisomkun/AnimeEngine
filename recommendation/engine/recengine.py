@@ -3,11 +3,24 @@ import numpy as np
 import warnings
 import pandas as pd
 import sklearn as sklearn
+import sqlite3 
+import pandas as pd
 
-from .dbConfig import animeConnect, ratingConnect
 from sklearn.metrics.pairwise import cosine_similarity
 
 pd.options.display.max_columns
+
+def animeConnect():
+    conn = sqlite3.connect("db.sqlite3")
+    select = pd.read_sql_query("SELECT * FROM anime",conn)
+    anime_df = pd.DataFrame(select, columns=['anime_id','name','genre','type','episodes','rating','members'])
+    return anime_df
+
+def ratingConnect():
+    conn = sqlite3.connect("db.sqlite3")
+    select = pd.read_sql_query("SELECT * FROM rating",conn)
+    rating_df = pd.DataFrame(select, columns=['user_id','anime_id','rating'])
+    return rating_df
 
 #warning hadle
 warnings.filterwarnings("always")
